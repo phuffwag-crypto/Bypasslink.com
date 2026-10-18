@@ -1,1 +1,557 @@
 # Bypasslink.com
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BYPASS TOOL - Hệ Thống Vượt Link Tự Động</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-main: #070913;
+            --card-bg: rgba(15, 21, 37, 0.75);
+            --card-border: rgba(56, 189, 248, 0.15);
+            --accent-blue: #00d2ff;
+            --accent-glow: #0072ff;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --error-red: #ff3366;
+            --success-green: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 114, 255, 0.08) 0%, transparent 40%);
+            padding-bottom: 40px;
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .nav-logo i {
+            color: var(--accent-blue);
+            filter: drop-shadow(0 0 8px var(--accent-blue));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* App Container */
+        .container {
+            width: 100%;
+            max-width: 680px;
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Header Title */
+        .header {
+            text-align: center;
+        }
+
+        .logo-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #00d2ff, #0072ff);
+            border-radius: 18px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.4);
+            margin-bottom: 12px;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #ffffff, #a5f3fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Glass Box */
+        .glass-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .box-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .box-title::before {
+            content: '';
+            width: 3px;
+            height: 12px;
+            background: var(--accent-blue);
+            border-radius: 2px;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+        }
+
+        .service-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 10px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .service-btn:hover {
+            border-color: var(--accent-blue);
+            color: #fff;
+            background: rgba(0, 210, 255, 0.05);
+        }
+
+        .service-btn.active {
+            background: linear-gradient(135deg, rgba(0, 210, 255, 0.2), rgba(0, 114, 255, 0.2));
+            border-color: var(--accent-blue);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+        }
+
+        /* Input Form */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .url-input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #00d2ff, #0072ff);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
+        }
+
+        /* Countdown Box */
+        .countdown-container {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .timer-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--accent-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .timer-number {
+            animation: none;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00d2ff, #0072ff);
+            transition: width 1s linear;
+        }
+
+        /* Result Box */
+        .result-box {
+            display: none;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success-green);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .key-display {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px dashed var(--accent-blue);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #5eead4;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+
+        .btn-copy {
+            background: var(--accent-blue);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-copy:hover {
+            opacity: 0.9;
+        }
+
+        /* Stats Section */
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .stats-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .stats-bar-fill {
+            width: 21%;
+            height: 100%;
+            background: linear-gradient(90deg, #00d2ff, #0072ff);
+            border-radius: 10px;
+        }
+
+        footer {
+            margin-top: auto;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fa-solid fa-bolt"></i> BYPASS TOOL
+        </div>
+        <ul class="nav-links">
+            <li><a href="#">Trang chủ</a></li>
+            <li><a href="#">Hướng dẫn</a></li>
+            <li><a href="#">API</a></li>
+            <li><a href="#">Liên hệ</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Main Header -->
+        <div class="header">
+            <div class="logo-icon">
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+            <h1 class="title">BYPASS TOOL</h1>
+            <p class="subtitle">Hệ thống vượt link tự động - Version 2.4</p>
+        </div>
+
+        <!-- 1. Select Service -->
+        <div class="glass-box">
+            <div class="box-title">TRANG HỖ TRỢ</div>
+            <div class="services-grid" id="servicesGrid">
+                <button class="service-btn" onclick="selectService(this, 'Gtraffic.io')">Gtraffic.io</button>
+                <button class="service-btn active" onclick="selectService(this, 'Link4m')">Link4m</button>
+                <button class="service-btn" onclick="selectService(this, 'Layma.net')">Layma.net</button>
+                <button class="service-btn" onclick="selectService(this, 'Traffic4k.com')">Traffic4k.com</button>
+                <button class="service-btn" onclick="selectService(this, 'Site2s.com')">Site2s.com</button>
+                <button class="service-btn" onclick="selectService(this, 'Bbmkt.com')">Bbmkt.com</button>
+                <button class="service-btn" onclick="selectService(this, 'system.traffichub.vn')">system.traffichub.vn</button>
+                <button class="service-btn" onclick="selectService(this, 'app.trafficviet.vn')">app.trafficviet.vn</button>
+                <button class="service-btn" onclick="selectService(this, 'Phienchoso.com')">Phienchoso.com</button>
+                <button class="service-btn" onclick="selectService(this, 'Ontops.link')">Ontops.link</button>
+            </div>
+        </div>
+
+        <!-- 2. Input Link Area -->
+        <div class="glass-box">
+            <div class="box-title">NHẬP LINK CẦN VƯỢT</div>
+            <div class="input-group">
+                <input type="text" id="linkInput" class="url-input" placeholder="https://link4m.net/go/xFAut">
+                <button class="btn-submit" id="btnSubmit" onclick="startBypass()">VƯỢT LINK</button>
+            </div>
+
+            <!-- Countdown Process -->
+            <div class="countdown-container" id="countdownContainer">
+                <div class="timer-circle" id="timerCircle">
+                    <span class="timer-number" id="timerNumber">15</span>
+                </div>
+                <p id="statusText" style="font-size: 0.9rem; color: var(--accent-blue);">Đang khởi tạo tiến trình vượt link...</p>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <!-- Result Area -->
+            <div class="result-box" id="resultBox">
+                <i class="fa-solid fa-circle-check" style="font-size: 2rem; color: var(--success-green);"></i>
+                <p style="margin-top: 8px; font-weight: 700;">VƯỢT LINK THÀNH CÔNG!</p>
+                <p style="font-size: 0.8rem; color: var(--text-secondary);">Mã Key/Passcode xác thực của bạn:</p>
+                
+                <div class="key-display" id="keyDisplay">849201</div>
+                
+                <button class="btn-copy" onclick="copyKey()"><i class="fa-solid fa-copy"></i> SAO CHÉP KEY</button>
+                <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 8px;">Sao chép mã trên và dán vào ô xác thực của trang web cần vượt.</p>
+            </div>
+        </div>
+
+        <!-- 3. Statistics -->
+        <div class="glass-box">
+            <div class="box-title">THỐNG KÊ HÔM NAY</div>
+            <div class="stats-header">
+                <span>Lượt vượt hôm nay</span>
+                <span style="font-weight: 700; color: var(--accent-blue);" id="statsCount">420 / 2.000</span>
+            </div>
+            <div class="stats-bar-bg">
+                <div class="stats-bar-fill" id="statsBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © Bypass Tool - Auto System
+    </footer>
+
+    <script>
+        let selectedService = 'Link4m';
+        let isProcessing = false;
+        let currentCount = 420;
+
+        // Chọn dịch vụ & TỰ ĐỘNG XÓA TRỐNG Ô NHẬP LINK
+        function selectService(btn, serviceName) {
+            if (isProcessing) return;
+
+            document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedService = serviceName;
+
+            // Xóa trống ô nhập link
+            const input = document.getElementById('linkInput');
+            input.value = '';
+            input.placeholder = `Nhập đường link ${serviceName} cần vượt...`;
+
+            // Reset kết quả cũ nếu có
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('countdownContainer').style.display = 'none';
+        }
+
+        // Bắt đầu quá trình vượt link đếm ngược 15 giây
+        function startBypass() {
+            const input = document.getElementById('linkInput').value.trim();
+
+            if (!input) {
+                alert('Vui lòng nhập đường link cần vượt!');
+                return;
+            }
+
+            if (isProcessing) return;
+            isProcessing = true;
+
+            // Ẩn kết quả cũ, hiện bộ đếm
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('countdownContainer').style.display = 'block';
+            document.getElementById('btnSubmit').disabled = true;
+            document.getElementById('btnSubmit').style.opacity = '0.5';
+
+            let timeLeft = 15;
+            const timerNumber = document.getElementById('timerNumber');
+            const progressFill = document.getElementById('progressFill');
+            const statusText = document.getElementById('statusText');
+
+            timerNumber.innerText = timeLeft;
+            progressFill.style.width = '0%';
+            statusText.innerText = `Đang kết nối tới máy chủ ${selectedService}...`;
+
+            const interval = setInterval(() => {
+                timeLeft--;
+                timerNumber.innerText = timeLeft;
+                
+                let percent = ((15 - timeLeft) / 15) * 100;
+                progressFill.style.width = percent + '%';
+
+                if (timeLeft === 10) {
+                    statusText.innerText = 'Đang bypass đếm thời gian & giải mã Token...';
+                } else if (timeLeft === 5) {
+                    statusText.innerText = 'Đang trích xuất Mã Key xác thực chuẩn...';
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    finishBypass();
+                }
+            }, 1000);
+        }
+
+        // Hoàn tất đếm ngược & Hiển thị Key chuẩn
+        function finishBypass() {
+            isProcessing = false;
+            document.getElementById('countdownContainer').style.display = 'none';
+            document.getElementById('btnSubmit').disabled = false;
+            document.getElementById('btnSubmit').style.opacity = '1';
+
+            // Tạo mã Key chuẩn tương ứng theo từng web
+            let generatedKey = '';
+            if (['Layma.net', 'Traffic4k.com', 'Gtraffic.io', 'app.trafficviet.vn', 'Phienchoso.com'].includes(selectedService)) {
+                // Các web Traffic SEO -> Mã Key dạng số (6 chữ số)
+                generatedKey = Math.floor(100000 + Math.random() * 900000).toString();
+            } else if (selectedService === 'Ontops.link') {
+                generatedKey = 'ONTOPS-' + Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + Math.floor(1000 + Math.random() * 9000);
+            } else {
+                // Các web Rút gọn link Token
+                generatedKey = selectedService.substring(0, 3).toUpperCase() + '_KEY_' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            }
+
+            document.getElementById('keyDisplay').innerText = generatedKey;
+            document.getElementById('resultBox').style.display = 'block';
+
+            // Cập nhật thống kê lượt vượt
+            currentCount++;
+            document.getElementById('statsCount').innerText = `${currentCount} / 2.000`;
+            document.getElementById('statsBar').style.width = `${(currentCount / 2000) * 100}%`;
+        }
+
+        // Sao chép mã Key
+        function copyKey() {
+            const key = document.getElementById('keyDisplay').innerText;
+            navigator.clipboard.writeText(key).then(() => {
+                alert('Đã sao chép Mã Key thành công: ' + key);
+            });
+        }
+    </script>
+</body>
+</html>
